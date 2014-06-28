@@ -30,7 +30,7 @@ class HelpRequests < PM::TableScreen
   end
 
   def load_help_requests
-    AFMotion::JSON.get("http://ember-help.herokuapp.com/api/v1/helps.json") do |result|
+    AFMotion::JSON.get("http://localhost:3000/api/v1/helps.json") do |result|
       result.object[:helps].each do |help|
         unless @ids.include?(help['id'])
           help_request = {

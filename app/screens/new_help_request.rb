@@ -39,17 +39,15 @@ class NewHelpRequest < PM::FormotionScreen
   end
 
   def build_request(data)
-    help = {
-      help: {
+    {
         title: data[:title],
         description: data[:description],
         status: "Open"
       }
-    }
   end
 
   def post(help)
-    AFMotion::JSON.post("http://ember-help.herokuapp.com/api/v1/helps", help) do |result|
+    AFMotion::HTTP.post("http://localhost:3000/api/v1/helps", help: help ) do |result|
       if result.success?
         p result.object
       else
