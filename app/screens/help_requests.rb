@@ -8,6 +8,7 @@ class HelpRequests < PM::TableScreen
     }
 
     @help_requests = []
+    @ids = []
     load_help_requests
   end
 
@@ -31,13 +32,17 @@ class HelpRequests < PM::TableScreen
   def load_help_requests
     AFMotion::JSON.get("http://ember-help.herokuapp.com/api/v1/helps.json") do |result|
       result.object[:helps].each do |help|
-        help_request = {
-          title: help['title'],
-          description: help['description'],
-          status: help['status'],
-          note: help['note']
-        }
-        @help_requests << help_request
+        unless @ids.include?(help['id'])
+          help_request = {
+            id: help['id'],
+            title: help['title'],
+            description: help['description'],
+            status: help['status'],
+            note: help['note']
+          }
+          @help_requests << help_request
+          @ids << help_request[:id]
+        end
       end
     end
     end_refreshing
